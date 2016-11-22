@@ -12,10 +12,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.set("view engine", "hbs");
 
 app.get("/", (req, res) => {
-  // res.status(200).render("index.html");
-  res.status(200).render("index.hbs", {
-    msg: "Server here, saying hi!"
-  });
+  res.status(200).render("index.html");
+  // res.status(200).render("index.hbs", {
+  //   msg: "Server here, saying hi!"
+  // });
 });
 
 app.listen(port, () => {
