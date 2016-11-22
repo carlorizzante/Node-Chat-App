@@ -3,21 +3,20 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "express": "^4.14.0",
-    "hbs": "^4.0.1"
-  }
-},
-  "engines": {
-  "node": "7.0.0"
-},
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm server/server.js",
     "watch": "nodemon server/server.js"
   },
+  "engines": {
+    "node": "7.0.0"
+  },
   "keywords": [],
   "author": "Carlo Rizzante <hello@carlorizzante.com> (http://carlorizzante.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "hbs": "^4.0.1"
+  },
+  "devDependencies": {}
 }
