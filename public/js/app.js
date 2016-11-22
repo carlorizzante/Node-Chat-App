@@ -1,6 +1,8 @@
 var socket = io();
-socket.on("connect", function() {
-  console.log("Connected to server.");
+socket.on("connect", function(data) {
+  socket.on("admin_notification", function(data) {
+    console.log("Admin:", data);
+  });
 });
 
 socket.on("disconnect", function() {
@@ -8,5 +10,5 @@ socket.on("disconnect", function() {
 });
 
 socket.on("new_message", function(data) {
-  console.log("New message!", data);
+  console.log("Message:", data);
 });

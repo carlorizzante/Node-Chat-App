@@ -16,14 +16,25 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.set("view engine", "hbs");
 
 io.on("connection", socket => {
-  console.log("New user connected");
+  console.log("User connected.");
+
+  socket.emit("admin_notification", {
+    from: "Admin",
+    text: "Welcome to the chat!",
+    createdAt: new Date().getTime()
+  });
+
+  socket.broadcast.emit("admin_notification", {
+    from: "Admin",
+    text: "New user joined the chat.",
+    createdAt: new Date().getTime()
+  });
 
   socket.on("disconnect", () => {
     console.log("User disconnected.");
   });
 
   socket.on("new_message", data => {
-    console.log("New message:", data);
     io.emit("new_message", {
       from: data.from,
       text: data.text,
