@@ -4,6 +4,8 @@ const hbs = require("hbs");
 const express = require("express");
 const socketIO = require("socket.io");
 
+const { generateMessage } = require("./utils/message");
+
 const publicPath = path.join(__dirname, "../public");
 const port = process.env.PORT || 3000;
 
@@ -18,28 +20,16 @@ app.set("view engine", "hbs");
 io.on("connection", socket => {
   console.log("User connected.");
 
-  socket.emit("admin_notification", {
-    from: "Admin",
-    text: "Welcome to the chat!",
-    createdAt: new Date().getTime()
-  });
+  socket.emit("admin_notification", generateMessage("Admin", "Welcome to the chat."));
 
-  socket.broadcast.emit("admin_notification", {
-    from: "Admin",
-    text: "New user joined the chat.",
-    createdAt: new Date().getTime()
-  });
+  socket.broadcast.emit("admin_notification", generateMessage("Admin", "New user joined the chat."));
 
   socket.on("disconnect", () => {
     console.log("User disconnected.");
   });
 
-  socket.on("new_message", data => {
-    io.emit("new_message", {
-      from: data.from,
-      text: data.text,
-      createdAt: new Date().getTime()
-    });
+  socket.on("new_message", message => {
+    io.emit("new_message", generateMessage(message.from, message.text));
   });
 });
 

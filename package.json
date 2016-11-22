@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && nodemon --exec 'mocha server/**/*.test.js'",
     "start": "node server/server.js",
     "watch": "nodemon server/server.js"
   },
@@ -19,5 +19,9 @@
     "hbs": "^4.0.1",
     "socket.io": "^1.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.1.2",
+    "nodemon": "^1.11.0"
+  }
 }
