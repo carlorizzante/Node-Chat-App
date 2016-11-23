@@ -32,6 +32,7 @@ socket.on("new_message", function(message) {
 $("#message-form").on("submit", (event) => {
   const from = $('#username').val();
   const message = $('#message').val();
+  event.stopImmediatePropagation();
   event.preventDefault();
   socket.emit("new_message", {
     from: from,
