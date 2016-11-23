@@ -20,16 +20,17 @@ app.set("view engine", "hbs");
 io.on("connection", socket => {
   console.log("User connected.");
 
-  socket.emit("admin_notification", generateMessage("Admin", "Welcome to the chat."));
+  socket.emit("new_message", generateMessage("Admin", "User", "Welcome to the chat."));
 
-  socket.broadcast.emit("admin_notification", generateMessage("Admin", "New user joined the chat."));
+  socket.broadcast.emit("new_message", generateMessage("Admin", "User", "New user joined the chat."));
 
   socket.on("disconnect", () => {
     console.log("User disconnected.");
   });
 
-  socket.on("new_message", message => {
-    io.emit("new_message", generateMessage(message.from, message.text));
+  socket.on("new_message", (message, cb) => {
+    io.emit("new_message", generateMessage(message.from, message.to, message.text));
+    cb("Server says all good.");
   });
 });
 

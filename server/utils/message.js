@@ -1,6 +1,7 @@
-const generateMessage = (from, text) => {
+const generateMessage = (from, to, text) => {
   return {
     from,
+    to,
     text,
     createdAt: new Date().getTime()
   }

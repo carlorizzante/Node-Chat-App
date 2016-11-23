@@ -1,0 +1,22 @@
+{
+  "name": "node-chat-app",
+  "description": "",
+  "main": "server/server.js",
+  "authors": [
+    "Carlo Rizzante <hello@carlorizzante.com> (http://carlorizzante.com)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/carlorizzante/Node-Chat-App",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "foundation": "^5.5.3",
+    "bootstrap": "^3.3.7"
+  }
+}

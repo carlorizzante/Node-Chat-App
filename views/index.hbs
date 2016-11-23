@@ -3,12 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Node Chat App</title>
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 </head>
 <body>
 
-  <h1>Node Chat App</h1>
-  <p>{{msg}}</p>
+  <div class="container">
+    <div class="row">
 
+      <div class="col-xs-12">
+        <h1>Node Chat App</h1>
+        <p>{{msg}}</p>
+      </div>
+
+      <div class="col-xs-12">
+        <!-- Element populated by jQuery with new incoming messages -->
+        <ol id="messages" style="padding-bottom:40px;border-bottom:1px solid #aaa;"></ol>
+      </div>
+
+      <div class="col-xs-12">
+        <form id="message-form" action="">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" class="form-control" id="user" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <input id="message" name="message" type="text" class="form-control" id="message" placeholder="Message">
+          </div>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/libs/jquery/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/app.js"></script>
 </body>
