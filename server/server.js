@@ -30,20 +30,21 @@ io.on("connection", socket => {
 
   socket.on("new_message", (message, cb) => {
     io.emit("new_message", generateMessage(message.from, message.to, message.text));
-    cb("Server says all good.");
+    cb();
   });
 
-  socket.on("send_location", (location) => {
+  socket.on("send_location", (location, cb) => {
     const user = location.user;
     const message = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
     // io.emit("new_message", generateMessage(user, "All", message));
     io.emit("new_location", generateLocationLink(user, "All", location));
+    cb();
   });
 });
 
 app.get("/", (req, res) => {
   // res.status(200).render("index.html");
-  res.status(200).render("index.hbs", {
+  res.status(200).render("index_default.hbs", {
     msg: "Type something, go head!"
   });
 });

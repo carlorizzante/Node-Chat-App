@@ -27,21 +27,24 @@ socket.on("new_location", function (message) {
   let new_location = jQuery("<li></li>");
   let link = jQuery("<a target='_blank'>" + from + "'s sharing his/her current geolocation.</a>").attr("href", url);
   new_location.append(link);
-  // new_location.text(link);
   jQuery("#messages").append(new_location);
 });
 
 jQuery("#message-form").on("submit", (event) => {
-  const from = jQuery('#username').val();
-  const message = jQuery('#message').val();
-  event.stopImmediatePropagation();
+  // event.stopImmediatePropagation();
   event.preventDefault();
-  socket.emit("new_message", {
-    from: from,
-    to: "Server",
-    text: message,
-    createdAt: new Date().getTime()
-  }, function() {});
+  const messageTextBox = jQuery("#message");
+  const username = jQuery("#username").val() || "Anonymous user";
+  if(messageTextBox.val().length > 0) {
+    socket.emit("new_message", {
+      from: username,
+      to: "Server",
+      text: messageTextBox.val(),
+      createdAt: new Date().getTime()
+    }, function() {
+      messageTextBox.val("");
+    });
+  }
 });
 
 var btnSendLocation = jQuery("#btn-send-location");
@@ -54,17 +57,25 @@ btnSendLocation.on("click", function (event) {
     return notice.removeClass("hidden");
   }
 
+  btnSendLocation.attr("disabled", "disabled").text("Sharing current location...");
+
+  const notification = jQuery("<li></li>").addClass("shaded").text("Geolocation in progress...");
+  jQuery("#messages").append(notification);
+
   navigator.geolocation.getCurrentPosition(function (position) {
-    console.log("Geolocating...", position);
-    const user = jQuery("#username").val();
+    const user = jQuery("#username").val() || "Anonymous User";
+    btnSendLocation.removeAttr("disabled").text("Share current location");
     socket.emit("send_location", {
       user: user,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
+    }, function () {
+      btnSendLocation.removeAttr("disabled").text("Share current location");
     });
   }, function (error) {
     var notice = jQuery("#notice-geolocation-failed");
     notice.removeClass("hidden");
+    btnSendLocation.removeAttr("disabled").text("Share current location");
   });
 });
 
