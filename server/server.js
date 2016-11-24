@@ -4,7 +4,7 @@ const hbs = require("hbs");
 const express = require("express");
 const socketIO = require("socket.io");
 
-const { generateMessage } = require("./utils/message");
+const { generateMessage, generateLocationLink } = require("./utils/message");
 
 const publicPath = path.join(__dirname, "../public");
 const port = process.env.PORT || 3000;
@@ -36,7 +36,8 @@ io.on("connection", socket => {
   socket.on("send_location", (location) => {
     const user = location.user;
     const message = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
-    io.emit("new_message", generateMessage(user, "All", message));
+    // io.emit("new_message", generateMessage(user, "All", message));
+    io.emit("new_location", generateLocationLink(user, "All", location));
   });
 });
 

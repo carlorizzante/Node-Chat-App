@@ -16,18 +16,20 @@ socket.on("new_message", function(message) {
   console.log("Message:", message);
   const from = message.from;
   const text = message.text
-  let new_message = $("<li></li>").text(from + ": " + text);
+  let new_message = jQuery("<li></li>").text(from + ": " + text);
   jQuery("#messages").append(new_message);
 });
 
-// socket.emit("new_message", {
-//   from: "User",
-//   to: "Server",
-//   text: "Hello Server :)",
-//   createdAt: new Date().getTime()
-// }, function cb (msg) {
-//   console.log(msg);
-// });
+socket.on("new_location", function (message) {
+  console.log("Location:", message);
+  const from = message.from;
+  const url = message.url
+  let new_location = jQuery("<li></li>");
+  let link = jQuery("<a target='_blank'>" + from + "'s sharing his/her current geolocation.</a>").attr("href", url);
+  new_location.append(link);
+  // new_location.text(link);
+  jQuery("#messages").append(new_location);
+});
 
 jQuery("#message-form").on("submit", (event) => {
   const from = jQuery('#username').val();
