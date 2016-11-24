@@ -32,12 +32,18 @@ io.on("connection", socket => {
     io.emit("new_message", generateMessage(message.from, message.to, message.text));
     cb("Server says all good.");
   });
+
+  socket.on("send_location", (location) => {
+    const user = location.user;
+    const message = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
+    io.emit("new_message", generateMessage(user, "All", message));
+  });
 });
 
 app.get("/", (req, res) => {
   // res.status(200).render("index.html");
   res.status(200).render("index.hbs", {
-    msg: "Server here, saying hi!"
+    msg: "Type something, go head!"
   });
 });
 
