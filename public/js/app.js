@@ -13,19 +13,21 @@ socket.on("disconnect", function() {
 // $(document).ready
 
 socket.on("new_message", function(message) {
-  console.log("Message:", message);
+  const formattedTime = moment(message.createdAt).format("h:mm a");
+  console.log(formattedTime);
   const from = message.from;
   const text = message.text
-  let new_message = jQuery("<li></li>").text(from + ": " + text);
+  let new_message = jQuery("<li></li>").text(from + " at " + formattedTime + ": " + text);
   jQuery("#messages").append(new_message);
 });
 
 socket.on("new_location", function (message) {
   console.log("Location:", message);
   const from = message.from;
-  const url = message.url
-  let new_location = jQuery("<li></li>");
-  let link = jQuery("<a target='_blank'>" + from + "'s sharing his/her current geolocation.</a>").attr("href", url);
+  const url = message.url;
+  const formattedTime = moment(message.createdAt).format("h:mm a");
+  let new_location = jQuery("<li></li>").text(from + " " + formattedTime + ": ");
+  let link = jQuery("<a></a>").attr("href", url).attr("target", "_blank").text("my current location");
   new_location.append(link);
   jQuery("#messages").append(new_location);
 });

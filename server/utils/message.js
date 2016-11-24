@@ -1,9 +1,11 @@
+const moment = require("moment");
+
 const generateMessage = (from, to, text) => {
   return {
     from,
     to,
     text,
-    createdAt: new Date().getTime()
+    createdAt: moment().valueOf()
   }
 }
 
@@ -12,7 +14,7 @@ const generateLocationLink = (from, to, location) => {
     from,
     to,
     url: `https://google.com/maps?q=${location.latitude},${location.longitude}`,
-    createdAt: new Date().getTime()
+    createdAt: moment().valueOf()
   }
 }
 
