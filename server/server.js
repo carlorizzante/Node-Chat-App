@@ -14,9 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(publicPath));
 
-app.set("view engine", "hbs");
+app.set("view engine", "html");
 
 io.on("connection", socket => {
   console.log("User connected.");
@@ -45,9 +45,7 @@ io.on("connection", socket => {
 
 app.get("/", (req, res) => {
   // res.status(200).render("index.html");
-  res.status(200).render("index_default.hbs", {
-    msg: "Type something, go head!"
-  });
+  res.status(200).render("index.html");
 });
 
 server.listen(port, () => {

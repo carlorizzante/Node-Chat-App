@@ -13,23 +13,42 @@ socket.on("disconnect", function() {
 // $(document).ready
 
 socket.on("new_message", function(message) {
+  // Basic jQuery method
+  // const formattedTime = moment(message.createdAt).format("h:mm a");
+  // console.log(formattedTime);
+  // const from = message.from;
+  // const text = message.text
+  // let new_message = jQuery("<li></li>").text(from + " at " + formattedTime + ": " + text);
+  // jQuery("#messages").append(new_message);
+
+  // Mustache templating
   const formattedTime = moment(message.createdAt).format("h:mm a");
-  console.log(formattedTime);
-  const from = message.from;
-  const text = message.text
-  let new_message = jQuery("<li></li>").text(from + " at " + formattedTime + ": " + text);
-  jQuery("#messages").append(new_message);
+  var template = jQuery("#message-template").html();
+  var html = Mustache.render(template, {
+    from: message.from,
+    text: message.text,
+    createdAt: formattedTime
+  });
+  jQuery("#messages").append(html);
 });
 
 socket.on("new_location", function (message) {
-  console.log("Location:", message);
-  const from = message.from;
-  const url = message.url;
+  // const from = message.from;
+  // const url = message.url;
+  // const formattedTime = moment(message.createdAt).format("h:mm a");
+  // let new_location = jQuery("<li></li>").text(from + " " + formattedTime + ": ");
+  // let link = jQuery("<a></a>").attr("href", url).attr("target", "_blank").text("my current location");
+  // new_location.append(link);
+  // jQuery("#messages").append(new_location);
+
   const formattedTime = moment(message.createdAt).format("h:mm a");
-  let new_location = jQuery("<li></li>").text(from + " " + formattedTime + ": ");
-  let link = jQuery("<a></a>").attr("href", url).attr("target", "_blank").text("my current location");
-  new_location.append(link);
-  jQuery("#messages").append(new_location);
+  var template = jQuery("#location-template").html();
+  var html = Mustache.render(template, {
+    from: message.from,
+    url: message.url,
+    createdAt: formattedTime
+  });
+  jQuery("#messages").append(html);
 });
 
 jQuery("#message-form").on("submit", (event) => {
