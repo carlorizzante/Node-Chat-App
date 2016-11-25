@@ -45,8 +45,12 @@ io.on("connection", socket => {
 
 app.get("/", (req, res) => {
   // res.status(200).render("index.html");
-  res.status(200).render("index.html");
+  res.status(200).render();
 });
+
+// app.get("/chat", (req, res) => {
+//   res.status(200).render("chat.html");
+// });
 
 server.listen(port, () => {
   console.log(`Server running on port ${port}...`);
