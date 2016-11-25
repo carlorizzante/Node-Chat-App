@@ -30,6 +30,7 @@ socket.on("new_message", function(message) {
     createdAt: formattedTime
   });
   jQuery("#messages").append(html);
+  scrollToBottom();
 });
 
 socket.on("new_location", function (message) {
@@ -49,6 +50,7 @@ socket.on("new_location", function (message) {
     createdAt: formattedTime
   });
   jQuery("#messages").append(html);
+  scrollToBottom();
 });
 
 jQuery("#message-form").on("submit", (event) => {
@@ -82,6 +84,7 @@ btnSendLocation.on("click", function (event) {
 
   const notification = jQuery("<li></li>").addClass("shaded").text("Geolocation in progress...");
   jQuery("#messages").append(notification);
+  scrollToBottom();
 
   navigator.geolocation.getCurrentPosition(function (position) {
     const user = jQuery("#username").val() || "Anonymous User";
@@ -106,3 +109,19 @@ btnClose.on("click", function (event) {
   console.log("Close!");
   btnClose.parent().addClass("hidden");
 });
+
+function scrollToBottom() {
+  // Selectors
+  var messages = jQuery("#messages");
+  var newMessage = jQuery("#messages li:last-child");
+  // Heights
+  var clientHeight = messages.prop("clientHeight");
+  var scrollTop = messages.prop("scrollTop");
+  var scrollHeight = messages.prop("scrollHeight");
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+  // Math
+  if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    messages.scrollTop(scrollHeight);
+  }
+}
