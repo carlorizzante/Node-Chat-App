@@ -17,7 +17,7 @@ describe("generateMessage", () => {
 });
 
 describe("generateLocationLink", () => {
-  it("should generate a corrent location object", () => {
+  it("should generate the current location object", () => {
     const from = "Jon";
     const to = "All";
     const location = {

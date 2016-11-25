@@ -1,6 +1,18 @@
+"use strict";
+
 var socket = io();
 
 socket.on("connect", function(message) {
+  const params = jQuery.deparam(window.location.search);
+
+  socket.emit("join", params, function (err) {
+    if (err) {
+      alert(err);
+      return window.location.href = "/";
+    }
+    console.log("All good, buddy!");
+  });
+
   socket.on("admin_notification", function(message) {
     console.log("Admin:", message);
   });

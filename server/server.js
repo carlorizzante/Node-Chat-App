@@ -6,6 +6,7 @@ const socketIO = require("socket.io");
 // const moment = require("moment");
 
 const { generateMessage, generateLocationLink } = require("./utils/message");
+const { isRealString } = require("./utils/validate");
 
 const publicPath = path.join(__dirname, "../public");
 const port = process.env.PORT || 3000;
@@ -19,7 +20,14 @@ app.use(express.static(publicPath));
 app.set("view engine", "html");
 
 io.on("connection", socket => {
-  console.log("User connected.");
+  // console.log(`${params.name} joined the chat.`);
+
+  socket.on("join", (params, cb) => {
+    if (!isRealString(params.name) || !isRealString(params.room)) {
+      cb("User name and room name are required.");
+    }
+    cb(); // Callback function's argument is used for passing errors
+  });
 
   socket.emit("new_message", generateMessage("Admin", "User", "Welcome to the chat."));
 
