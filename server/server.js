@@ -45,8 +45,8 @@ io.on("connection", socket => {
 
     io.to(room).emit("update_users_list", users.getUsersList(room));
 
-    socket.emit("new_message", generateMessage("Admin", name, `Hello ${name}, welcome to the chat!`));
-    socket.broadcast.to(room).emit("new_message", generateMessage("Admin", name, `${name} just joined the chat.`));
+    socket.emit("new_message", generateMessage("Admin", `Hello ${name}, welcome to the chat!`));
+    socket.broadcast.to(room).emit("new_message", generateMessage("Admin", `${name} just joined the chat.`));
     cb(); // Callback function's argument is used for passing errors
   });
 
@@ -58,21 +58,24 @@ io.on("connection", socket => {
       const room = user.room;
 
       io.to(room).emit("update_users_list", users.getUsersList(room));
-      io.to(room).emit("new_message", generateMessage("Admin", name, `${name} has left.`));
+      io.to(room).emit("new_message", generateMessage("Admin", `${name} has left.`));
       console.log("User disconnected.");
     }
   });
 
   socket.on("new_message", (message, cb) => {
-    io.emit("new_message", generateMessage(message.from, message.to, message.text));
+    const user = users.getUser(socket.id);
+    if (!user && !isRealString(message.text)) return;
+    io.to(user.room).emit("new_message", generateMessage(user.name, message.text));
     cb();
   });
 
   socket.on("send_location", (location, cb) => {
-    const user = location.user;
+    const user = users.getUser(socket.id);
+    if (!user) return;
     const message = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
     // io.emit("new_message", generateMessage(user, "All", message));
-    io.emit("new_location", generateLocationLink(user, "All", location));
+    io.to(user.room).emit("new_location", generateLocationLink(user.name, location));
     cb();
   });
 });

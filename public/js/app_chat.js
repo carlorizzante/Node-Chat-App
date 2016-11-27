@@ -10,11 +10,6 @@ socket.on("connect", function(message) {
       alert(err);
       return window.location.href = "/";
     }
-    console.log("All good, buddy!");
-  });
-
-  socket.on("admin_notification", function(message) {
-    console.log("Admin:", message);
   });
 });
 
@@ -77,13 +72,9 @@ jQuery("#message-form").on("submit", (event) => {
   // event.stopImmediatePropagation();
   event.preventDefault();
   const messageTextBox = jQuery("#message");
-  const username = jQuery("#username").val() || "Anonymous user";
   if(messageTextBox.val().length > 0) {
     socket.emit("new_message", {
-      from: username,
-      to: "Server",
-      text: messageTextBox.val(),
-      createdAt: new Date().getTime()
+      text: messageTextBox.val()
     }, function() {
       messageTextBox.val("");
     });
@@ -107,10 +98,8 @@ btnSendLocation.on("click", function (event) {
   scrollToBottom();
 
   navigator.geolocation.getCurrentPosition(function (position) {
-    const user = jQuery("#username").val() || "Anonymous User";
     btnSendLocation.removeAttr("disabled").text("Share current location");
     socket.emit("send_location", {
-      user: user,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     }, function () {
