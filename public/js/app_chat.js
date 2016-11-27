@@ -65,6 +65,14 @@ socket.on("new_location", function (message) {
   scrollToBottom();
 });
 
+socket.on("update_users_list", function(users) {
+  let ul = jQuery("<ul></ul>");
+  users.forEach(function(user) {
+    ul.append(jQuery("<li></li>").text(user));
+  });
+  jQuery("#users").html(ul);
+});
+
 jQuery("#message-form").on("submit", (event) => {
   // event.stopImmediatePropagation();
   event.preventDefault();
